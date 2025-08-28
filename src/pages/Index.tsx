@@ -1,13 +1,14 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ChatInterface from "@/components/ChatInterface";
-import { Bot, Zap, Target } from "lucide-react";
+import TabbedContent from "@/components/Tabbedcontent";
+import { Bot, Zap, Target, FileText, Bookmark, Image, Search, Network } from "lucide-react";
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-hero">
       <Header />
-      
+
       <main className="flex-1">
         {/* Hero Section */}
         <section className="relative py-20 md:py-32">
@@ -25,6 +26,60 @@ const Index = () => {
                   that understand your products and goals.
                 </p>
               </div>
+
+              {/* Workflow Diagram Section */}
+              <div className="flex justify-center items-center mb-20">
+                <div className="flex items-center gap-12 relative">
+                  {/* Left side icons */}
+                  <div className="flex flex-col gap-6 relative">
+                    <div className="p-3 rounded-lg bg-card/40 backdrop-blur-sm border border-border/40">
+                      <FileText className="h-6 w-6 text-muted-foreground" />
+                    </div>
+                    <div className="p-3 rounded-lg bg-card/40 backdrop-blur-sm border border-border/40">
+                      <Bookmark className="h-6 w-6 text-muted-foreground" />
+                    </div>
+                    <div className="p-3 rounded-lg bg-card/40 backdrop-blur-sm border border-border/40">
+                      <Image className="h-6 w-6 text-muted-foreground" />
+                    </div>
+
+                    {/* Animated line to brain */}
+                    <div className="absolute top-1/2 right-[-64px] w-16 h-0.5 bg-gradient-to-r from-muted-foreground/60 to-transparent overflow-hidden">
+                      <span className="absolute left-0 top-1/2 -translate-y-1/2 text-xs text-muted-foreground animate-arrow-move">
+                        →
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Center brain node */}
+                  <div className="relative flex items-center justify-center">
+                    {/* Glow effect */}
+                    <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 blur-3xl animate-pulse"></div>
+                    {/* Brain icon */}
+                    <div className="p-8 rounded-full bg-card border border-border/40 relative z-10">
+                      <Bot className="h-10 w-10 text-primary" />
+                    </div>
+                  </div>
+
+                  {/* Right side icons */}
+                  <div className="flex flex-col gap-6 relative">
+                    <div className="p-3 rounded-lg bg-card/40 backdrop-blur-sm border border-border/40">
+                      <Network className="h-6 w-6 text-muted-foreground" />
+                    </div>
+                    <div className="p-3 rounded-lg bg-card/40 backdrop-blur-sm border border-border/40">
+                      <Search className="h-6 w-6 text-muted-foreground" />
+                    </div>
+
+                    {/* Animated line out of brain */}
+                    <div className="absolute top-1/2 left-[-64px] w-16 h-0.5 bg-gradient-to-r from-transparent to-muted-foreground/60 overflow-hidden">
+                      <span className="absolute right-0 top-1/2 -translate-y-1/2 text-lg text-muted-foreground animate-arrow-move-out">
+                        →
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <ChatInterface />
 
               {/* Features Preview */}
               <div className="grid gap-6 md:grid-cols-3 max-w-3xl mx-auto mb-12">
@@ -57,8 +112,8 @@ const Index = () => {
                 </div>
               </div>
 
-              {/* Chat Interface */}
-              <ChatInterface />
+              <TabbedContent />
+
             </div>
           </div>
         </section>

@@ -68,33 +68,35 @@ const ChatInterface = () => {
     setSelectedAgent(agentId);
     setIsAnalyzing(true);
     setCurrentStep("results");
-    
-    // Simulate API call
-    setTimeout(() => {
-      const selectedAgentData = agents.find(a => a.id === agentId);
+
+    try {
+      const response = await fetch("https://summerproject.app.n8n.cloud/webhook/marketing-agent", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          productName,
+          agentId
+        })
+      });
+
+      const data = await response.json(); // n8n should return structured JSON
+      setResults(data);
+
+    } catch (error) {
+      console.error("Error calling n8n webhook:", error);
       setResults({
-        agent: selectedAgentData,
+        agent: agents.find(a => a.id === agentId),
         analysis: {
-          keyInsights: [
-            `${productName} has strong market potential in the ${selectedAgentData?.name.toLowerCase()} space`,
-            "Recommended focusing on customer pain points and unique value proposition",
-            "Social media engagement shows 73% higher conversion rates for similar products"
-          ],
-          recommendations: [
-            "Create content series highlighting product benefits",
-            "Implement A/B testing for messaging optimization", 
-            "Focus on building community around product use cases"
-          ],
-          metrics: {
-            "Market Size": "$2.4B",
-            "Competition Level": "Medium",
-            "Growth Potential": "High",
-            "Recommended Budget": "$5,000/month"
-          }
+          keyInsights: ["Failed to fetch results from AI agent."],
+          recommendations: [],
+          metrics: {}
         }
       });
+    } finally {
       setIsAnalyzing(false);
-    }, 2000);
+    }
   };
 
   const resetChat = () => {

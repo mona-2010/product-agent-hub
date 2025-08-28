@@ -30,7 +30,11 @@ export default {
 				},
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
-					foreground: 'hsl(var(--secondary-foreground))'
+					foreground: 'hsl(var(--secondary-foreground))',
+				},
+				brand: {
+					DEFAULT: '#4F1787',
+					foreground: '#ffffff',
 				},
 				destructive: {
 					DEFAULT: 'hsl(var(--destructive))',
@@ -99,9 +103,12 @@ export default {
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
-			}
-		}
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'arrow-move': 'arrow-move 1.5s linear infinite',
+				'arrow-move-out': 'arrow-move-out 1.5s linear infinite',
+				'pulse-brain': 'pulse-brain 2s ease-in-out infinite',
+			},
+		},
 	},
 	plugins: [require("tailwindcss-animate")],
 } satisfies Config;

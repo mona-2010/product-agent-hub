@@ -1,3 +1,5 @@
+import logo from "@/assets/images/logo.webp";
+
 const Footer = () => {
   return (
     <footer className="border-t border-border/40 bg-background/95">
@@ -5,8 +7,12 @@ const Footer = () => {
         <div className="grid gap-8 md:grid-cols-4">
           <div className="space-y-3">
             <div className="flex items-center space-x-2">
-              <div className="h-6 w-6 rounded bg-gradient-primary"></div>
-              <span className="font-bold">MarketingAI</span>
+              <img
+                src={logo}
+                alt="TheStrategyFilter Logo"
+                className="h-24 w-24 rounded"
+              />
+              <span className="font-bold">TheStrategyFilter</span>
             </div>
             <p className="text-sm text-muted-foreground">
               Automate your marketing with AI-powered agents that understand your products.
@@ -16,7 +22,7 @@ const Footer = () => {
             <h4 className="text-sm font-semibold">Product</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                <a href="/features" className="text-muted-foreground hover:text-foreground transition-colors">
                   Features
                 </a>
               </li>
@@ -36,7 +42,7 @@ const Footer = () => {
             <h4 className="text-sm font-semibold">Company</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                <a href="/about" className="text-muted-foreground hover:text-foreground transition-colors">
                   About
                 </a>
               </li>
@@ -75,7 +81,7 @@ const Footer = () => {
         </div>
         <div className="mt-8 border-t border-border/40 pt-6">
           <p className="text-center text-sm text-muted-foreground">
-            © 2024 MarketingAI. All rights reserved.
+            © 2025 TheStrategyFilter. All rights reserved.
           </p>
         </div>
       </div>
