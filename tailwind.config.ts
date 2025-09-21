@@ -99,6 +99,14 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'arrow-move': {
+					'0%, 100%': { transform: 'translateX(0)' },
+					'50%': { transform: 'translateX(8px)' }
+				},
+				'arrow-move-out': {
+					'0%, 100%': { transform: 'translateX(0)' },
+					'50%': { transform: 'translateX(-8px)' }
 				}
 			},
 			animation: {
@@ -107,6 +115,7 @@ export default {
 				'arrow-move': 'arrow-move 1.5s linear infinite',
 				'arrow-move-out': 'arrow-move-out 1.5s linear infinite',
 				'pulse-brain': 'pulse-brain 2s ease-in-out infinite',
+				
 			},
 		},
 	},

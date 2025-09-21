@@ -92,7 +92,7 @@ export default function TabbedContent() {
         </div>
 
         {/* Active Tab Content */}
-        <div className="bg-brand text-white rounded-xl p-10 max-w-3xl mx-auto space-y-6">
+        <div className="bg-gradient-to-br from-indigo-950 via-purple-1000 via-purple-800 to-blue-1000 text-white rounded-xl p-10 max-w-3xl mx-auto space-y-6 shadow-2xl shadow-purple-500/20">
           <p className="uppercase tracking-wide text-sm opacity-80">
             Made for {current.label}
           </p>
