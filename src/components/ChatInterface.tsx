@@ -2,8 +2,90 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Send, Bot, Zap, Target, TrendingUp, Mail, Share2 } from "lucide-react";
+
+// Import the output components
+import ContentCreatorOutput from "./ContentCreatorOutput";
+import SocialStrategistOutput from "./SocialStrategistOutput";
+import EmailMarketerOutput from "./EmailMarketerOutput";
+import SEOOptimizerOutput from "./SEOOptimizerOutput";
+import GrowthHackerOutput from "./GrowthHackerOutput";
+import BrandAnalystOutput from "./BrandAnalystOutput";
+
+// Generic output component for other agents (placeholder)
+const GenericAgentOutput = ({ agent, productName }: { agent: any, productName: string }) => {
+  // Static data for other agents - you can customize this for each agent later
+  const genericResults = {
+    analysis: {
+      keyInsights: [
+        `${agent.name} analysis shows strong potential for ${productName}`,
+        "Market positioning opportunities identified",
+        "Competitive advantages discovered",
+        "Growth potential assessment completed"
+      ],
+      recommendations: [
+        `Implement ${agent.name.toLowerCase()} best practices`,
+        "Focus on target audience engagement",
+        "Optimize conversion funnel",
+        "Monitor key performance indicators"
+      ],
+      metrics: {
+        "Market Score": "8.5/10",
+        "Potential ROI": "145%",
+        "Risk Level": "Low",
+        "Time to Impact": "2-3 months"
+      }
+    }
+  };
+
+  return (
+    <div className="grid gap-6 md:grid-cols-2">
+      <Card className="bg-card/60 backdrop-blur-sm">
+        <CardHeader>
+          <CardTitle className="text-base">Key Insights</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          {genericResults.analysis.keyInsights.map((insight: string, index: number) => (
+            <div key={index} className="flex gap-2">
+              <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
+              <p className="text-sm">{insight}</p>
+            </div>
+          ))}
+        </CardContent>
+      </Card>
+
+      <Card className="bg-card/60 backdrop-blur-sm">
+        <CardHeader>
+          <CardTitle className="text-base">Recommendations</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          {genericResults.analysis.recommendations.map((rec: string, index: number) => (
+            <div key={index} className="flex gap-2">
+              <div className="w-2 h-2 rounded-full bg-accent mt-2 flex-shrink-0"></div>
+              <p className="text-sm">{rec}</p>
+            </div>
+          ))}
+        </CardContent>
+      </Card>
+
+      <Card className="bg-card/60 backdrop-blur-sm md:col-span-2">
+        <CardHeader>
+          <CardTitle className="text-base">Key Metrics</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-4 md:grid-cols-4">
+            {Object.entries(genericResults.analysis.metrics).map(([key, value]) => (
+              <div key={key} className="text-center">
+                <p className="text-sm text-muted-foreground">{key}</p>
+                <p className="text-lg font-semibold">{value as string}</p>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+};
 
 const agents = [
   {
@@ -15,7 +97,7 @@ const agents = [
   },
   {
     id: "email-marketer",
-    name: "Email Marketer", 
+    name: "Email Marketer",
     description: "Create email campaigns and newsletter content",
     icon: <Mail className="h-5 w-5" />,
     color: "bg-green-500/10 text-green-400 border-green-500/20"
@@ -57,46 +139,40 @@ const ChatInterface = () => {
   const [results, setResults] = useState<any>(null);
   const [currentStep, setCurrentStep] = useState<"input" | "select" | "results">("input");
 
-  const handleProductSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (productName.trim()) {
-      setCurrentStep("select");
-    }
-  };
-
   const handleAgentSelect = async (agentId: string) => {
     setSelectedAgent(agentId);
     setIsAnalyzing(true);
     setCurrentStep("results");
 
-    try {
-      const response = await fetch("https://summerproject.app.n8n.cloud/webhook/marketing-agent", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          productName,
-          agentId
-        })
-      });
-
-      const data = await response.json(); // n8n should return structured JSON
-      setResults(data);
-
-    } catch (error) {
-      console.error("Error calling n8n webhook:", error);
+    // Simulate API call delay
+    setTimeout(() => {
+      const selectedAgentData = agents.find(a => a.id === agentId);
       setResults({
-        agent: agents.find(a => a.id === agentId),
-        analysis: {
-          keyInsights: ["Failed to fetch results from AI agent."],
-          recommendations: [],
-          metrics: {}
-        }
+        agent: selectedAgentData,
+        agentId: agentId
       });
-    } finally {
       setIsAnalyzing(false);
-    }
+    }, 2000);
+
+    // For future API integration:
+    // try {
+    //   const response = await fetch("https://summerproject.app.n8n.cloud/webhook/marketing-agent", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json"
+    //     },
+    //     body: JSON.stringify({
+    //       productName,
+    //       agentId
+    //     })
+    //   });
+    //   const data = await response.json();
+    //   setResults(data);
+    // } catch (error) {
+    //   console.error("Error calling API:", error);
+    // } finally {
+    //   setIsAnalyzing(false);
+    // }
   };
 
   const resetChat = () => {
@@ -107,30 +183,75 @@ const ChatInterface = () => {
     setIsAnalyzing(false);
   };
 
+  const changeAgent = () => {
+    // Keep the product name but reset agent selection
+    setSelectedAgent(null);
+    setResults(null);
+    setCurrentStep("select");
+    setIsAnalyzing(false);
+  };
+
+  const renderAgentOutput = () => {
+    if (!results) return null;
+
+    // Render specific output based on selected agent
+    switch (results.agentId) {
+      case "content-creator":
+        return <ContentCreatorOutput productName={productName} />;
+      case "social-strategist":
+        return <SocialStrategistOutput productName={productName} />;
+      case "email-marketer":
+        return <EmailMarketerOutput productName={productName} />;
+      case "seo-optimizer":
+        return <SEOOptimizerOutput productName={productName} />;
+      case "growth-hacker":
+        return <GrowthHackerOutput productName={productName} />;
+      case "brand-analyst":
+        return <BrandAnalystOutput productName={productName} />;
+      default:
+        // For other agents, use generic output for now
+        return <GenericAgentOutput agent={results.agent} productName={productName} />;
+    }
+  };
+
   return (
     <div className="w-full max-w-4xl mx-auto">
       <Card className="backdrop-blur-md bg-card/80 border-border/40 shadow-subtle">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold">Marketing AI Assistant</CardTitle>
+          <CardTitle className="text-2xl font-bold">TheStrategyFilter</CardTitle>
+          <h1>Marketing AI Assistant</h1>
           <p className="text-muted-foreground">
             Enter your product name and choose an AI agent to get started
           </p>
         </CardHeader>
         <CardContent className="space-y-6">
           {currentStep === "input" && (
-            <form onSubmit={handleProductSubmit} className="space-y-4">
+            <div className="space-y-4">
               <div className="flex gap-2">
                 <Input
                   placeholder="Enter your product name..."
                   value={productName}
                   onChange={(e) => setProductName(e.target.value)}
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter' && productName.trim()) {
+                      setCurrentStep("select");
+                    }
+                  }}
                   className="flex-1 bg-input/50 border-border/40"
                 />
-                <Button type="submit" size="icon" disabled={!productName.trim()}>
+                <Button
+                  onClick={() => {
+                    if (productName.trim()) {
+                      setCurrentStep("select");
+                    }
+                  }}
+                  size="icon"
+                  disabled={!productName.trim()}
+                >
                   <Send className="h-4 w-4" />
                 </Button>
               </div>
-            </form>
+            </div>
           )}
 
           {currentStep === "select" && (
@@ -171,7 +292,9 @@ const ChatInterface = () => {
 
           {currentStep === "results" && (
             <div className="space-y-6">
-              <div className="flex items-center justify-between">
+              {/* Responsive wrapper */}
+              <div className="grid grid-cols-1 sm:flex sm:items-center sm:justify-between sm:gap-4">
+                {/* Agent Info */}
                 <div className="flex items-center gap-3">
                   <div className={`p-2 rounded-md border ${results?.agent?.color}`}>
                     {results?.agent?.icon}
@@ -185,9 +308,16 @@ const ChatInterface = () => {
                     </p>
                   </div>
                 </div>
-                <Button variant="ghost" size="sm" onClick={resetChat}>
-                  New Analysis
-                </Button>
+
+                {/* Buttons stacked on small, inline on large */}
+                <div className="flex flex-col sm:flex-row gap-2 mt-4 sm:mt-0">
+                  <Button variant="outline" size="sm" onClick={changeAgent}>
+                    Change Agent
+                  </Button>
+                  <Button variant="outline" size="sm" onClick={resetChat}>
+                    New Analysis
+                  </Button>
+                </div>
               </div>
 
               {isAnalyzing ? (
@@ -196,54 +326,12 @@ const ChatInterface = () => {
                   <p className="text-muted-foreground">Analyzing your product...</p>
                 </div>
               ) : (
-                <div className="grid gap-6 md:grid-cols-2">
-                  <Card className="bg-card/60 backdrop-blur-sm">
-                    <CardHeader>
-                      <CardTitle className="text-base">Key Insights</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-3">
-                      {results?.analysis?.keyInsights.map((insight: string, index: number) => (
-                        <div key={index} className="flex gap-2">
-                          <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
-                          <p className="text-sm">{insight}</p>
-                        </div>
-                      ))}
-                    </CardContent>
-                  </Card>
-
-                  <Card className="bg-card/60 backdrop-blur-sm">
-                    <CardHeader>
-                      <CardTitle className="text-base">Recommendations</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-3">
-                      {results?.analysis?.recommendations.map((rec: string, index: number) => (
-                        <div key={index} className="flex gap-2">
-                          <div className="w-2 h-2 rounded-full bg-accent mt-2 flex-shrink-0"></div>
-                          <p className="text-sm">{rec}</p>
-                        </div>
-                      ))}
-                    </CardContent>
-                  </Card>
-
-                  <Card className="bg-card/60 backdrop-blur-sm md:col-span-2">
-                    <CardHeader>
-                      <CardTitle className="text-base">Key Metrics</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="grid gap-4 md:grid-cols-4">
-                        {Object.entries(results?.analysis?.metrics || {}).map(([key, value]) => (
-                          <div key={key} className="text-center">
-                            <p className="text-sm text-muted-foreground">{key}</p>
-                            <p className="text-lg font-semibold">{value as string}</p>
-                          </div>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
+                renderAgentOutput()
               )}
             </div>
           )}
+
+
         </CardContent>
       </Card>
     </div>

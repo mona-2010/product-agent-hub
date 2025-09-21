@@ -113,7 +113,6 @@ const Index = () => {
               </div>
 
               <TabbedContent />
-
             </div>
           </div>
         </section>
