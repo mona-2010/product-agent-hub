@@ -67,8 +67,8 @@ export default function TabbedContent() {
   const current = tabs.find((t) => t.id === active)!;
 
   return (
-    <section className="py-16">
-      <div className="container mx-auto text-center">
+    <section className="py-12">
+      <div className="container mx-auto text-center px-0">
         <h2 className="text-4xl md:text-5xl font-bold mb-8 text-primary">
           For visual minds of all kinds.
         </h2>

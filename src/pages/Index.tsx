@@ -1,12 +1,38 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ChatInterface from "@/components/ChatInterface";
 import TabbedContent from "@/components/TabbedContent";
+import AgentsSwiper from '@/components/AgentsSwiper';
+import CallToActionSection from '@/components/CallToActionSection'; 
 import { Bot, Zap, Target, FileText, Bookmark, Image, Search, Network } from "lucide-react";
 import robotImage from "@/assets/images/robot.png";
+import contentWriterImage from "@/assets/images/image1.jpg";
+import emailMarketingImage from "@/assets/images/image2.jpg";
+import socialMediaImage from "@/assets/images/image3.jpg";
+import analyticsImage from "@/assets/images/image4.jpg";
+import automationImage from "@/assets/images/image5.jpg";
+import strategyImage from "@/assets/images/image6.jpg";
 
 const Index = () => {
+  const chatInterfaceRef = useRef<HTMLDivElement>(null);
+
+  const scrollToChatInterface = () => {
+    if (chatInterfaceRef.current) {
+      chatInterfaceRef.current.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+      
+      const firstInput = chatInterfaceRef.current.querySelector('input, textarea');
+      if (firstInput) {
+        setTimeout(() => {
+          (firstInput as HTMLElement).focus();
+        }, 500);
+      }
+    }
+  };
+
   return (
     <div className="min-h-screen relative overflow-hidden">
       {/* Cosmic Background */}
@@ -26,7 +52,7 @@ const Index = () => {
             />
           ))}
         </div>
-        
+
         {/* Floating particles */}
         <div className="absolute inset-0">
           {[...Array(20)].map((_, i) => (
@@ -59,7 +85,7 @@ const Index = () => {
             <div className="container px-4 mx-auto">
               <div className="max-w-6xl mx-auto">
                 <div className="grid lg:grid-cols-2 gap-12 items-center">
-                  
+
                   {/* Left side - Content */}
                   <div className="space-y-8 text-center lg:text-left">
                     <div className="space-y-4">
@@ -109,13 +135,13 @@ const Index = () => {
 
                   {/* Right side - Workflow Diagram & Robot */}
                   <div className="flex flex-col items-center">
-                    
-                   {/* Robot Character */}
+
+                    {/* Robot Character */}
                     <div className="relative">
                       <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-500/30 to-pink-500/30 blur-3xl animate-pulse scale-125"></div>
                       <div className="relative w-72 h-72 lg:w-[28rem] lg:h-[28rem] xl:w-[32rem] xl:h-[32rem] flex items-center justify-center">
-                        <img 
-                          src={robotImage} 
+                        <img
+                          src={robotImage}
                           alt="AI Marketing Robot"
                           className="w-full h-80 object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-300"
                           style={{
@@ -123,63 +149,72 @@ const Index = () => {
                           }}
                         />
                       </div>
-                    </div>     
+                    </div>
                   </div>
                 </div>
 
-                {/* Chat Interface */}
-                <div className="mt-16">
+                {/* Chat Interface - Add ref here */}
+                <div className="mt-16" ref={chatInterfaceRef}>
                   <ChatInterface />
                 </div>
 
 
                 {/* Workflow Diagram */}
-                    <div className="flex justify-center items-center mt-8">
-                      <div className="flex items-center gap-8 relative">
-                        {/* Left side icons */}
-                        <div className="flex flex-col gap-4 relative">
-                          <div className="p-3 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/15 transition-colors">
-                            <FileText className="h-6 w-6 text-gray-300" />
-                          </div>
-                          <div className="p-3 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/15 transition-colors">
-                            <Bookmark className="h-6 w-6 text-gray-300" />
-                          </div>
-                          <div className="p-3 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/15 transition-colors">
-                            <Image className="h-6 w-6 text-gray-300" />
-                          </div>
+                <div className="flex justify-center items-center mt-8">
+                  <div className="flex items-center gap-8 relative">
+                    {/* Left side icons */}
+                    <div className="flex flex-col gap-4 relative">
+                      <div className="p-3 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/15 transition-colors">
+                        <FileText className="h-6 w-6 text-gray-300" />
+                      </div>
+                      <div className="p-3 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/15 transition-colors">
+                        <Bookmark className="h-6 w-6 text-gray-300" />
+                      </div>
+                      <div className="p-3 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/15 transition-colors">
+                        <Image className="h-6 w-6 text-gray-300" />
+                      </div>
 
-                          {/* Animated line to brain */}
-                          <div className="absolute top-1/2 right-[-40px] w-8 h-0.5 bg-gradient-to-r from-purple-400/80 to-transparent">
-                            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-purple-400 rounded-full animate-ping"></div>
-                          </div>
-                        </div>
-
-                        {/* Center brain node */}
-                        <div className="relative flex items-center justify-center">
-                          {/* Glow effect */}
-                          <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-500/40 to-pink-500/40 blur-2xl animate-pulse"></div>
-                          {/* Brain icon */}
-                          <div className="p-6 rounded-full bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-md border border-white/30 relative z-10">
-                            <Bot className="h-8 w-8 text-purple-200" />
-                          </div>
-                        </div>
-
-                        {/* Right side icons */}
-                        <div className="flex flex-col gap-4 relative">
-                          <div className="p-3 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/15 transition-colors">
-                            <Network className="h-6 w-6 text-gray-300" />
-                          </div>
-                          <div className="p-3 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/15 transition-colors">
-                            <Search className="h-6 w-6 text-gray-300" />
-                          </div>
-
-                          {/* Animated line out of brain */}
-                          <div className="absolute top-1/2 left-[-40px] w-8 h-0.5 bg-gradient-to-l from-pink-400/80 to-transparent">
-                            <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-pink-400 rounded-full animate-ping" style={{ animationDelay: '0.5s' }}></div>
-                          </div>
-                        </div>
+                      {/* Animated line to brain */}
+                      <div className="absolute top-1/2 right-[-40px] w-8 h-0.5 bg-gradient-to-r from-purple-400/80 to-transparent">
+                        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-purple-400 rounded-full animate-ping"></div>
                       </div>
                     </div>
+
+                    {/* Center brain node */}
+                    <div className="relative flex items-center justify-center">
+                      {/* Glow effect */}
+                      <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-500/40 to-pink-500/40 blur-2xl animate-pulse"></div>
+                      {/* Brain icon */}
+                      <div className="p-6 rounded-full bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-md border border-white/30 relative z-10">
+                        <Bot className="h-8 w-8 text-purple-200" />
+                      </div>
+                    </div>
+
+                    {/* Right side icons */}
+                    <div className="flex flex-col gap-4 relative">
+                      <div className="p-3 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/15 transition-colors">
+                        <Network className="h-6 w-6 text-gray-300" />
+                      </div>
+                      <div className="p-3 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/15 transition-colors">
+                        <Search className="h-6 w-6 text-gray-300" />
+                      </div>
+
+                      {/* Animated line out of brain */}
+                      <div className="absolute top-1/2 left-[-40px] w-8 h-0.5 bg-gradient-to-l from-pink-400/80 to-transparent">
+                        <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-pink-400 rounded-full animate-ping" style={{ animationDelay: '0.5s' }}></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <AgentsSwiper
+                  contentWriterImage={contentWriterImage}
+                  emailMarketingImage={emailMarketingImage}
+                  socialMediaImage={socialMediaImage}
+                  analyticsImage={analyticsImage}
+                  automationImage={automationImage}
+                  strategyImage={strategyImage}
+                />
 
                 {/* Tabbed Content */}
                 <div className="mt-16">
@@ -189,6 +224,9 @@ const Index = () => {
             </div>
           </section>
         </main>
+
+        {/* Call to Action Section */}
+        <CallToActionSection onGetStarted={scrollToChatInterface} />
 
         <Footer />
       </div>
